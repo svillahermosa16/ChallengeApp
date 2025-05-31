@@ -29,8 +29,31 @@
 		5612534C2DEA505E0053AC59 /* ChallengeAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChallengeAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		56D46CCC2DEA5E65008F964F /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Home/HomeIntent.swift,
+				Home/HomeState.swift,
+				Home/HomeView.swift,
+				Home/HomeViewModel.swift,
+			);
+			target = 561253412DEA505E0053AC59 /* ChallengeAppTests */;
+		};
+		56D46CCD2DEA5E65008F964F /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Home/HomeIntent.swift,
+				Home/HomeState.swift,
+				Home/HomeView.swift,
+				Home/HomeViewModel.swift,
+			);
+			target = 5612534B2DEA505E0053AC59 /* ChallengeAppUITests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		561253342DEA505D0053AC59 /* ChallengeApp */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ChallengeApp; sourceTree = "<group>"; };
+		561253342DEA505D0053AC59 /* ChallengeApp */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (56D46CCC2DEA5E65008F964F /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 56D46CCD2DEA5E65008F964F /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = ChallengeApp; sourceTree = "<group>"; };
 		561253452DEA505E0053AC59 /* ChallengeAppTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ChallengeAppTests; sourceTree = "<group>"; };
 		5612534F2DEA505E0053AC59 /* ChallengeAppUITests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ChallengeAppUITests; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
