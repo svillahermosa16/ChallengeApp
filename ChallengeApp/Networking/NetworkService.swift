@@ -48,11 +48,14 @@ class NetworkService {
             let statusCode = (response as? HTTPURLResponse)?.statusCode ?? -1
             
             switch statusCode {
+                
             case 200..<300:
                 let model = try decoder.decode(responseType.self, from: data)
                 return model
+                
             case 401..<403:
                 throw APIError.unauthorized
+                
             default:
                 let errorModel = try decoder.decode(ServerErrorResponse.self, from: data)
                 throw APIError.badServerResponse(code: errorModel.code, message: errorModel.message)

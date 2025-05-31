@@ -1,10 +1,11 @@
 import SwiftUI
 import Combine
 
-struct HomeView: MVIBaseView {
-    @ObservedObject var viewModel: HomeViewModel
+struct HomeView: View {
+    @EnvironmentObject var coordinator: MainCoordinator
     @State private var textInput: String = ""
     @State private var cartItems: [Int] = [0,0,0,0,0]
+    @FocusState private var isTextFieldFocused: Bool
     
     var body: some View {
         ZStack {
@@ -24,6 +25,16 @@ struct HomeView: MVIBaseView {
                         TextField("Comenzá tu busqueda",
                                   text: $textInput)
                         .font(.system(size: 16, weight: .medium))
+                        .focused($isTextFieldFocused)
+                        .submitLabel(.search)
+                        .onAppear {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                isTextFieldFocused = false
+                            }
+                        }
+                        .onSubmit {
+                            coordinator.push(.productList(textInput))
+                        }
                     }
                     .padding(5)
                     .background {
@@ -53,5 +64,6 @@ struct HomeView: MVIBaseView {
 }
 
 #Preview {
-    HomeView(viewModel: .init(state: .init()))
+    HomeView()
+        .environmentObject(MainCoordinator())
 }
