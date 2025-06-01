@@ -17,7 +17,7 @@ protocol Coordinator: ObservableObject {
 
 class MainCoordinator: Coordinator {
     @Published var path: NavigationPath = NavigationPath()
-    
+    let repository: SearchRepository = SearchRepository()
     func push(_ screen: Screen) {
         path.append(screen)
     }
@@ -36,7 +36,8 @@ class MainCoordinator: Coordinator {
         case .home:
             HomeView()
         case .productList(let searchInput):
-            EmptyView()
+            let viewModel = SearchResultViewModel(state: .init(searchQuery: searchInput), repository: repository)
+            SearchResultView(viewModel: viewModel)
         case .productDetail(let product):
             EmptyView()
         }

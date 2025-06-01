@@ -14,15 +14,6 @@ struct RequestPath: RawRepresentable, Sendable {
     public init(rawValue: String) {
         self.rawValue = rawValue
     }
-}
-
-enum ChallengeAppPaths {
-    case search
     
-    var path: RequestPath {
-        switch self {
-        case .search:
-            return .init(rawValue: "/products/search")
-        }
-    }
+    public static let search = RequestPath(rawValue: "/products/search")
 }

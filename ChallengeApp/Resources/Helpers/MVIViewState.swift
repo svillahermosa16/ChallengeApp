@@ -14,7 +14,7 @@ protocol MVIBaseViewModel: ObservableObject {
     associatedtype Intent: MVIIntent
     associatedtype ViewState: MVIViewState
     var state: ViewState { get }
-    func intentHandler(_ intent: Intent)
+    func intentHandler(_ intent: Intent) async
 }
 protocol MVIBaseView: View {
     associatedtype ViewModel: MVIBaseViewModel

@@ -34,6 +34,10 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Views/Home/HomeView.swift,
+				Views/SearchResult/SearchResultIntent.swift,
+				Views/SearchResult/SearchResultState.swift,
+				Views/SearchResult/SearchResultView.swift,
+				Views/SearchResult/SearchResultViewModel.swift,
 			);
 			target = 561253412DEA505E0053AC59 /* ChallengeAppTests */;
 		};
@@ -41,6 +45,10 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Views/Home/HomeView.swift,
+				Views/SearchResult/SearchResultIntent.swift,
+				Views/SearchResult/SearchResultState.swift,
+				Views/SearchResult/SearchResultView.swift,
+				Views/SearchResult/SearchResultViewModel.swift,
 			);
 			target = 5612534B2DEA505E0053AC59 /* ChallengeAppUITests */;
 		};

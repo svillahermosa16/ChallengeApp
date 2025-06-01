@@ -11,14 +11,14 @@ import Foundation
 struct ProductSearchResponse: Codable {
     let paging: Paging?
     let keywords: String?
-    let results: [ProductMatch]?
+    let results: [ProductMatch]
 }
 
 struct Paging: Codable {
     let total, limit, offset: Int?
 }
 
-struct ProductMatch: Codable {
+struct ProductMatch: Codable, Identifiable {
     let id: String?
     let dateCreated: String?
     let catalogProductID: String?
@@ -34,6 +34,10 @@ struct ProductMatch: Codable {
     let qualityType, priority, type: String?
     let variations: [JSONAny]?
     let siteID, keywords, description: String?
+    
+    var dateValue: Date? {
+        return dateCreated?.toDateARG(formato: "yyyy-MM-dd'T'HH:mm:ssZ")
+    }
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -52,6 +56,7 @@ struct ProductMatch: Codable {
         case siteID = "site_id"
         case keywords, description
     }
+    
 }
 
 struct Attribute: Codable {
@@ -319,3 +324,5 @@ class JSONAny: Codable {
         }
     }
 }
+
+
