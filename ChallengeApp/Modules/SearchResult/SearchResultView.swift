@@ -13,15 +13,18 @@ struct SearchResultView: MVIBaseView {
     }
     
     var body: some View {
-        VStack {
+        VStack(alignment: .center, spacing: 20) {
             Color.yellow
                 .edgesIgnoringSafeArea(.all)
                 .frame(height: 30)
-    
-            if viewModel.state.error != nil {
-                ErrorView(error: viewModel.state.error, actionBtnMessage: "Reintentar") {
-                    searchProduct()
+            
+            if let error = viewModel.state.error {
+                ZStack {
+                    ErrorView(error: error, actionBtnMessage: "Reintentar") {
+                        searchProduct()
+                    }
                 }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
                 mainView { product in
                     selectProduct(product)

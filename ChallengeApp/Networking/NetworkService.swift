@@ -8,7 +8,11 @@
 import Foundation
 import Network
 
-class NetworkService {
+protocol NetworkServiceProtocol {
+    func request<T: Decodable>(apiRequest: APIRequest, responseType: T.Type) async throws -> T
+}
+
+class NetworkService: NetworkServiceProtocol {
     
     private let networkMonitor = NWPathMonitor()
     private let workerQueue = DispatchQueue(label: "networkMonitor")

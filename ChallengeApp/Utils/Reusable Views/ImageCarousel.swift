@@ -12,7 +12,7 @@ struct ImageCarousel: View {
     @State private var currentPage: Int = 0
     
     var body: some View {
-        VStack(alignment: .center) {
+        VStack(alignment: .leading) {
             VStack(alignment: .leading) {
                 if imageSource.count > 0 {
                     Capsule()
@@ -33,7 +33,7 @@ struct ImageCarousel: View {
                                 case .success(let image):
                                     image
                                         .resizable()
-                                        .scaledToFit()
+                                        .frame(width: 300, height: 200)
                                 default:
                                     ProgressView()
                                 }
@@ -43,13 +43,14 @@ struct ImageCarousel: View {
                         .tag(index)
                     }
                 }
+                .frame(height: 300)
                 .tabViewStyle(.page(indexDisplayMode: .never))
             }
             
         }
         if imageSource.count > 1 {
             PageControlView(numberOfPages: imageSource.count, currentPage: $currentPage)
-                .padding(.top, 8)
+                .frame(height: 30)
         }
     }
 }

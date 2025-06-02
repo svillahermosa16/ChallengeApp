@@ -4,24 +4,34 @@ import Combine
 struct ProductDetailView: MVIBaseView {
     @ObservedObject var viewModel: ProductDetailViewModel
     @EnvironmentObject var coordinator: MainCoordinator
+    @State private var selections: [String: String?] = [:]
     var body: some View {
-        VStack(alignment: .center) {
+        VStack(alignment: .center, spacing: 20) {
             Color.yellow
                 .edgesIgnoringSafeArea(.all)
                 .frame(height: 30)
-            if viewModel.state.error != nil {
-                ErrorView(error: viewModel.state.error, actionBtnMessage: "Reintentar") {
-                    loadProduct()
+            
+            if let error = viewModel.state.error {
+                ZStack {
+                    ErrorView(error: error, actionBtnMessage: "Reintentar") {
+                        loadProduct()
+                    }
                 }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
                 ScrollView {
-                    Text(viewModel.state.product?.name ?? "")
-                    buildCarousel()
-                    buildPickerViewSelector()
+                    VStack(alignment: .leading) {
+                        Text(viewModel.state.product?.name ?? "")
+                        VStack {
+                            buildCarousel()
+                        }
+                        buildPickerViewSelector()
+                            .padding(.horizontal, 20)
+                    }
+                    
                 }
                 .padding(.horizontal, 10)
             }
-            Spacer()
         }
         .onAppear {
             loadProduct()
@@ -36,11 +46,6 @@ struct ProductDetailView: MVIBaseView {
     }
     
     @ViewBuilder
-    private func buildErrorView(error: APIError?) -> some View {
-        
-    }
-    
-    @ViewBuilder
     private func buildCarousel() -> some View {
         if let product = viewModel.state.product {
             let images: [URL] = product.pictures?.compactMap { pictureElement -> URL? in
@@ -49,8 +54,6 @@ struct ProductDetailView: MVIBaseView {
                 }
             } ?? []
             ImageCarousel(imageSource: images)
-                .frame(height: 300)
-
         }
     }
     
@@ -59,7 +62,11 @@ struct ProductDetailView: MVIBaseView {
         if let pickers = viewModel.state.product?.pickers {
             VStack(alignment: .leading, spacing: 10) {
                 ForEach(pickers) { picker in
-                    PickerView(picker: picker)
+                    if !(picker.products?.count ?? 1 == 1) || picker.hasAnyProductWithThumbnail() {
+                        PickerView(picker: picker, onSelectionChange: { newSelection in
+                            selections[picker.pickerID ?? ""] = newSelection
+                        })
+                    }
                 }
             }
         }
