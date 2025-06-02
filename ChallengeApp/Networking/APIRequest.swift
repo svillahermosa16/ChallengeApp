@@ -21,18 +21,19 @@ struct APIRequest: APIRequestProtocol {
     let method: HttpMethod
     let parameters: RequestParameters
     var headers: RequestHeaders?
-    
+    var suffix: String?
     private let baseUrlString = Constants.baseUrl
 
     var url: URL? {
         .init(string: retrieveFullPath())
     }
 
-    init (path: RequestPath, method: HttpMethod, parameters: RequestParameters, headers: RequestHeaders? = nil) {
+    init (path: RequestPath, method: HttpMethod, parameters: RequestParameters, headers: RequestHeaders? = nil, suffix: String? = nil) {
         self.path = path
         self.method = method
         self.parameters = parameters
         self.headers = headers
+        self.suffix = suffix
     }
     
     func retrieveFullPath() -> String {
@@ -40,26 +41,33 @@ struct APIRequest: APIRequestProtocol {
             return baseUrlString + path.rawValue
         }
         
-        let url = base.appendingPathComponent(self.path.rawValue)
-        guard var components = URLComponents(url: url, resolvingAgainstBaseURL: true) else {
-            return url.absoluteString
+        if !parameters.isEmpty {
+            let components = urlComponents(params: parameters)
+            guard var fullComponents = URLComponents(url: base, resolvingAgainstBaseURL: true) else {
+                return base.absoluteString
+            }
+            
+            fullComponents.path = fullComponents.path + components.path
+            fullComponents.queryItems = components.queryItems
+            
+            return fullComponents.url?.absoluteString ?? base.absoluteString
         }
         
-        if !parameters.isEmpty {
-            components.queryItems = parameters.compactMap { element -> URLQueryItem? in
-                guard let value = element.value else { return nil }
-                return .init(name: element.key, value: String(describing: value))
-            }
+        var url = base.appendingPathComponent(path.rawValue)
+        
+        if let suffix = suffix {
+            url = url.appendingPathComponent(suffix)
         }
-        return components.string ?? url.absoluteString
+        
+        return url.absoluteString
     }
-    
+
     func urlComponents(params: RequestParameters) -> URLComponents {
         var components = URLComponents()
         components.path = path.rawValue
         components.queryItems = params.compactMap { element -> URLQueryItem? in
             guard let value = element.value else { return nil }
-            return .init(name: element.key, value: String(describing: value))
+            return URLQueryItem(name: element.key, value: String(describing: value))
         }
         return components
     }

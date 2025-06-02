@@ -36,10 +36,10 @@ class MainCoordinator: Coordinator {
         case .home:
             HomeView()
         case .productList(let searchInput):
-            let viewModel = SearchResultViewModel(state: .init(searchQuery: searchInput), repository: repository)
-            SearchResultView(viewModel: viewModel)
-        case .productDetail(let product):
-            EmptyView()
+            SearchResultView(searchInput: searchInput, repository: repository)
+        case .productDetail(let productId):
+            let viewModel = ProductDetailViewModel(state: .init(productId: productId), repository: repository)
+            ProductDetailView(viewModel: viewModel)
         }
     }
 }

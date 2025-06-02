@@ -9,7 +9,7 @@ import Foundation
 
 protocol SearchRepositoryProtocol {
     func searchProduct(query: String) async throws  -> ProductSearchResponse
-    func searchProductDetails(productId: String) async
+    func searchProductDetails(productId: String) async throws -> ProductDetail
 }
 
 class SearchRepository: SearchRepositoryProtocol {
@@ -24,13 +24,23 @@ class SearchRepository: SearchRepositoryProtocol {
         do {
             let productsData = try await service.request(apiRequest: request, responseType: ProductSearchResponse.self)
             return productsData
-        } catch {
+        } catch let error as APIError {
             throw error
+        } catch {
+            throw APIError.unknown
         }
     }
     
-    func searchProductDetails(productId: String) async {
-        
+    func searchProductDetails(productId: String) async throws -> ProductDetail {
+        let request = APIRequest(path: .product, method: .get, parameters: [:], headers: .baseAuthInit(), suffix: productId)
+        do {
+            let productDetailData = try await service.request(apiRequest: request, responseType: ProductDetail.self)
+            return productDetailData
+        } catch let error as APIError {
+            throw error
+        } catch {
+            throw APIError.unknown
+        }
     }
     
 }

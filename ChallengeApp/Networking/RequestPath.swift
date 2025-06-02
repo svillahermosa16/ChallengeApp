@@ -16,4 +16,5 @@ struct RequestPath: RawRepresentable, Sendable {
     }
     
     public static let search = RequestPath(rawValue: "/products/search")
+    public static let product = RequestPath(rawValue: "products/")
 }
