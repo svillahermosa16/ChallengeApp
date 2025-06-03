@@ -16,8 +16,8 @@ Este repositorio contiene el proyecto correspondiente a la instancia de desafío
 ### Stack técnico
 - **UI Framework**: SwiftUI
 - **Networking**: URLSession nativo (sin dependencias externas)
-- **Mínimo iOS**: 16.0+
-- **Mínimo Xcode**: 15.0
+- **Versión mínima para iOS**: 16.0+
+- **Versión mínima de Xcode**: 15.0
 
 ### Estructura del proyecto
 ```
