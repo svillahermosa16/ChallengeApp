@@ -6,3 +6,10 @@ struct ProductDetailState: MVIViewState {
     var error: APIError?
     var isLoading: Bool = false
 }
+
+extension ProductDetailState {
+    static func mock() -> ProductDetailState {
+        let mock = ProductDetailState(productId: "TEST", product: nil, error: .unknown, isLoading: false)
+        return mock
+    }
+}

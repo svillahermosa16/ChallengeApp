@@ -113,8 +113,8 @@ struct Product: Codable, Identifiable {
     }
     
     var hasValidThumbnail: Bool {
-            thumbnail?.isEmpty == false
-        }
+        thumbnail?.isEmpty == false
+    }
 }
 
 struct Picker: Codable, Identifiable {
@@ -153,6 +153,61 @@ struct PickerAttribute: Codable {
 
 struct ShortDescription: Codable {
     let type, content: String?
+}
+
+extension ProductDetail {
+    static func mockValue() -> ProductDetail {
+        let jsonString = """
+        {
+            "id": "TEST",
+            "catalog_product_id": "CAT456",
+            "status": "active",
+            "pdp_types": [],
+            "domain_id": "DOM789",
+            "permalink": "/test-product",
+            "name": "Test Product",
+            "family_name": "Test Family",
+            "type": "simple",
+            "buy_box_winner": null,
+            "pickers": [],
+            "pictures": [],
+            "description_pictures": [],
+            "main_features": [],
+            "disclaimers": [],
+            "attributes": [],
+            "short_description": {
+                "content": "Test description"
+            },
+            "parent_id": "PARENT001",
+            "user_product": null,
+            "children_ids": [],
+            "settings": {
+                "buyable": true
+            },
+            "quality_type": "premium",
+            "release_info": null,
+            "presale_info": null,
+            "enhanced_content": null,
+            "tags": [],
+            "date_created": "2025-06-03T13:47:50Z",
+            "authorized_stores": null,
+            "last_updated": "2025-06-03T13:47:50Z",
+            "grouper_id": null,
+            "experiments": {
+                "enabled": false
+            }
+        }
+        """
+        
+        let jsonData = jsonString.data(using: .utf8)!
+        let decoder = JSONDecoder()
+        
+        do {
+            return try decoder.decode(ProductDetail.self, from: jsonData)
+        } catch {
+            fatalError("Failed to decode mock ProductDetail: \(error)")
+        }
+    }
 }
 
 

@@ -56,7 +56,6 @@ struct ProductMatch: Codable, Identifiable {
         case siteID = "site_id"
         case keywords, description
     }
-    
 }
 
 struct Attribute: Codable {
@@ -84,3 +83,53 @@ struct Settings: Codable {
     }
 }
 
+extension ProductSearchResponse {
+    static func mockValue() -> ProductSearchResponse {
+        let jsonString = """
+        {
+            "paging": {
+                "total": 100,
+                "offset": 0,
+                "limit": 50,
+                "primary_results": 25
+            },
+            "keywords": "test search",
+            "results": [
+                {
+                    "id": "MATCH123",
+                    "date_created": "2025-06-03T14:22:30Z",
+                    "catalog_product_id": "CAT789",
+                    "pdp_types": [],
+                    "status": "active",
+                    "domain_id": "DOM456",
+                    "settings": {
+                        "buyable": true
+                    },
+                    "name": "Test Product Match",
+                    "main_features": [],
+                    "attributes": [],
+                    "pictures": [],
+                    "parent_id": "PARENT123",
+                    "children_ids": [],
+                    "quality_type": "premium",
+                    "priority": "high",
+                    "type": "simple",
+                    "variations": [],
+                    "site_id": "SITE001",
+                    "keywords": "test product match",
+                    "description": "Test product match description"
+                }
+            ]
+        }
+        """
+        
+        let jsonData = jsonString.data(using: .utf8)!
+        let decoder = JSONDecoder()
+        
+        do {
+            return try decoder.decode(ProductSearchResponse.self, from: jsonData)
+        } catch {
+            fatalError("Failed to decode mock ProductSearchResponse: \(error)")
+        }
+    }
+}
