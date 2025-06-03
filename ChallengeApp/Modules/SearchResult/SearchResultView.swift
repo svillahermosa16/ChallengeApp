@@ -13,53 +13,80 @@ struct SearchResultView: MVIBaseView {
     }
     
     var body: some View {
-        VStack(alignment: .center, spacing: 20) {
-            Color.yellow
-                .edgesIgnoringSafeArea(.all)
-                .frame(height: 30)
-            
-            if let error = viewModel.state.error {
-                ZStack {
-                    ErrorView(error: error, actionBtnMessage: "Reintentar") {
-                        searchProduct()
-                    }
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-            } else {
-                mainView { product in
-                    selectProduct(product)
-                }
-            }
-            Spacer()
-        }
-        
-        //MARK: Este modificador personalizado puede causar errores al correr la suit de tests, comentar en caso de ser necesario para probar
-        .onFirstAppear {
-            searchProduct()
-        }
-    }
-    
-    @ViewBuilder
-    private func mainView(tap: @escaping (ProductMatch) -> Void) -> some View {
-        
         ZStack {
-            if !viewModel.state.products.isEmpty {
-                List(viewModel.state.products, id: \.id) { product in
-                    ProductView(product: product) { product in
-                        tap(product)
-                    }
-                    .listRowSeparator(.hidden)
-                }
-                .scrollIndicators(.hidden)
-                .listStyle(.plain)
-            } else {
-                Text("No se han encontrado resultados para la busqueda")
-                    .font(.system(size: 16, weight: .heavy))
+            VStack(alignment: .center, spacing: 20) {
+                Color.yellow
+                    .edgesIgnoringSafeArea(.all)
+                    .frame(height: 15)
+                
+                mainView()
+                Spacer()
+            }
+            
+            //MARK: Este modificador personalizado puede causar errores al correr la suit de tests, comentar en caso de ser necesario para correr los tests
+            .onFirstAppear {
+                searchProduct()
             }
             
             if viewModel.state.isLoading {
                 ProgressView()
             }
+        }
+        .navigationBarBackButtonHidden(true)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                buildBackButton()
+            }
+            ToolbarItem(placement: .principal) {
+                Text("Resultados de la búsqueda")
+                    .font(Font.system(size: 18, weight: .bold))
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private func mainView() -> some View {
+        
+        if let error = viewModel.state.error {
+            ZStack {
+                ErrorView(error: error, actionBtnMessage: "Reintentar") {
+                    searchProduct()
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        } else {
+            buildList()
+        }
+    }
+    
+    
+    @ViewBuilder
+    private func buildList() -> some View {
+        ZStack {
+            if !viewModel.state.products.isEmpty {
+                List(viewModel.state.products, id: \.id) { product in
+                    ProductView(product: product) { product in
+                        selectProduct(product)
+                    }
+                }
+                .scrollIndicators(.hidden)
+                .listStyle(.plain)
+            } else {
+                if viewModel.state.searchCompleted {
+                    Text("No se han encontrado resultados para la busqueda")
+                        .font(.system(size: 16, weight: .heavy))
+                }
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private func buildBackButton() -> some View {
+        Button(action: coordinator.pop) {
+            Image(systemName: "chevron.left")
+                .font(Font.system(size: 16))
+                .foregroundStyle(.black)
         }
     }
     

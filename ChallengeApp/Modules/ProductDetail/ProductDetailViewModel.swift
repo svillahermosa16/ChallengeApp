@@ -16,7 +16,7 @@ class ProductDetailViewModel: MVIBaseViewModel {
             do {
                 let productDetailResponse = try await repository.searchProductDetails(productId: state.productId)
                 self.state.product = productDetailResponse
-                print(productDetailResponse)
+                print(productDetailResponse.mainFeatures)
             } catch {
                 state.error = error as? APIError ?? .unknown
             }

@@ -5,4 +5,5 @@ struct SearchResultState: MVIViewState {
     var products: [ProductMatch] = []
     var error: APIError?
     var isLoading: Bool = false
+    var searchCompleted: Bool = false
 }

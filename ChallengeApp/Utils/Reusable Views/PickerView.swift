@@ -14,101 +14,172 @@ struct PickerView: View {
 
     private let selectedBorderColor = Color.blue
     private let unselectedBorderColor = Color.gray.opacity(0.5)
+    private let standardBorderColor = Color.black
     
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 8) {
             if let pickerName = picker.pickerName {
-                Text("\(pickerName): \(selection ?? "")")
-                    .font(.headline)
-                    .padding(.bottom, 5)
-                
-                if picker.hasAnyProductWithThumbnail() {
-                    buildThumbnailPicker(currentPicker: picker)
-                } else {
-                    buildStandardPicker(currentPicker: picker)
-                }
+                pickerHeader(name: pickerName)
+                pickerContent()
             }
+        }
+    }
+}
+
+private extension PickerView {
+    func pickerHeader(name: String) -> some View {
+        Text("\(name): \(selection ?? "")")
+            .font(Font.system(size: 14, weight: .regular))
+    }
+}
+
+private extension PickerView {
+    @ViewBuilder
+    func pickerContent() -> some View {
+        if picker.hasAnyProductWithThumbnail() {
+            thumbnailPicker()
+        } else {
+            standardPicker()
         }
     }
     
     @ViewBuilder
-    private func buildThumbnailPicker(currentPicker: Picker) -> some View {
+    func thumbnailPicker() -> some View {
         HStack(alignment: .center, spacing: 8) {
-            if let products = currentPicker.products {
+            if let products = picker.products {
                 ForEach(products) { product in
-                    VStack {
-                        Button(action: {
-                            if let productLabel = product.pickerLabel {
-                                if self.selection == productLabel {
-                                    self.selection = nil
-                                } else {
-                                    self.selection = productLabel
-                                }
-                                onSelectionChange(self.selection == productLabel ? nil : productLabel)
-                            }
-                        }) {
-                            if product.hasValidThumbnail, let thumbnailUrlString = product.thumbnail, let url = URL(string: thumbnailUrlString) {
-                                AsyncImage(url: url) { phase in
-                                    switch phase {
-                                    case .success(let image):
-                                        image.resizable()
-                                            .scaledToFit()
-                                            .frame(width: 40, height: 40)
-                                    default:
-                                        ProgressView()
-                                            .frame(width: 40, height: 40)
-                                    }
-                                }
-                            } else {
-                                Rectangle()
-                                    .fill(Color.gray.opacity(0.1))
-                                    .frame(width: 40, height: 40)
-                                    .cornerRadius(4)
-                                    .overlay(Image(systemName: "photo").foregroundColor(.gray))
-                            }
-                        }
-                        .clipShape(RoundedRectangle(cornerRadius: 5))
-                        .padding(3)
-                        .background {
-                            RoundedRectangle(cornerRadius: 5)
-                                .stroke(lineWidth: 1)
-                        }
-                        Text(product.pickerLabel ?? "N/A")
-                    }
+                    ThumbnailPickerButton(
+                        product: product,
+                        isSelected: isSelected(product),
+                        onTap: { handleSelection(product) }
+                    )
                 }
             }
         }
     }
     
     @ViewBuilder
-    private func buildStandardPicker(currentPicker: Picker) -> some View {
+    func standardPicker() -> some View {
         HStack(spacing: 8) {
-            if let products = currentPicker.products {
+            if let products = picker.products {
                 ForEach(products) { product in
-                    HStack {
-                        Button(action: {
-                            if let productLabel = product.pickerLabel {
-                                if self.selection == productLabel {
-                                    self.selection = nil
-                                } else {
-                                    self.selection = productLabel
-                                    onSelectionChange(self.selection == productLabel ? nil : productLabel)
-                                }
-                            }
-                        }) {
-                            Text(product.pickerLabel ?? "N/A")
-                                .padding(4)
-                                .background {
-                                    RoundedRectangle(cornerRadius: 5)
-                                        .stroke(lineWidth: 1)
-                                }
-                        }
-                    }
-                    .padding(.vertical, 4)
+                    StandardPickerButton(
+                        product: product,
+                        isSelected: isSelected(product),
+                        onTap: { handleSelection(product) }
+                    )
                 }
             }
         }
-    }}
+    }
+}
+
+private extension PickerView {
+    @ViewBuilder
+    func ThumbnailPickerButton(
+        product: Product,
+        isSelected: Bool,
+        onTap: @escaping () -> Void
+    ) -> some View {
+        Button(action: onTap) {
+            VStack(spacing: 4) {
+                thumbnailImage(for: product)
+                thumbnailLabel(for: product)
+            }
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 5))
+        .padding(3)
+        .background {
+            RoundedRectangle(cornerRadius: 5)
+                .stroke(
+                    isSelected ? selectedBorderColor : unselectedBorderColor,
+                    lineWidth: isSelected ? 2 : 1
+                )
+        }
+    }
+    
+    @ViewBuilder
+    func StandardPickerButton(
+        product: Product,
+        isSelected: Bool,
+        onTap: @escaping () -> Void
+    ) -> some View {
+        Button(action: onTap) {
+            Text(product.pickerLabel ?? "N/A")
+                .foregroundColor(.black)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 8)
+        }
+        .background {
+            RoundedRectangle(cornerRadius: 5)
+                .stroke(
+                    isSelected ? selectedBorderColor : standardBorderColor,
+                    lineWidth: isSelected ? 2 : 1
+                )
+        }
+    }
+}
+
+private extension PickerView {
+    @ViewBuilder
+    func thumbnailImage(for product: Product) -> some View {
+        if product.hasValidThumbnail,
+           let thumbnailUrlString = product.thumbnail,
+           let url = URL(string: thumbnailUrlString) {
+            
+            AsyncImage(url: url) { phase in
+                switch phase {
+                case .success(let image):
+                    image
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 40, height: 40)
+                default:
+                    ProgressView()
+                        .frame(width: 40, height: 40)
+                }
+            }
+        } else {
+            placeholderImage()
+        }
+    }
+    
+    func placeholderImage() -> some View {
+        Rectangle()
+            .fill(Color.gray.opacity(0.1))
+            .frame(width: 40, height: 40)
+            .cornerRadius(4)
+            .overlay(
+                Image(systemName: "photo")
+                    .foregroundColor(.gray)
+            )
+    }
+    
+    func thumbnailLabel(for product: Product) -> some View {
+        Text(product.pickerLabel ?? "N/A")
+            .lineLimit(1)
+            .foregroundStyle(.black)
+            .font(Font.system(size: 14, weight: .regular))
+    }
+}
+
+private extension PickerView {
+    func isSelected(_ product: Product) -> Bool {
+        selection == product.pickerLabel
+    }
+    
+    func handleSelection(_ product: Product) {
+        guard let productLabel = product.pickerLabel else { return }
+        
+        if selection == productLabel {
+            selection = nil
+            onSelectionChange(nil)
+        } else {
+            selection = productLabel
+            onSelectionChange(productLabel)
+        }
+    }
+}
 
 
 

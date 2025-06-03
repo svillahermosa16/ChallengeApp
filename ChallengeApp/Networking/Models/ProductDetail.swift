@@ -16,7 +16,8 @@ struct ProductDetail: Codable {
     let buyBoxWinner: JSONNull?
     let pickers: [Picker]?
     let pictures: [Picture]?
-    let descriptionPictures, mainFeatures, disclaimers: [JSONAny]?
+    let descriptionPictures: [JSONAny]?
+    let mainFeatures, disclaimers: [VariableMetadata]?
     let attributes: [ProductAttribute]?
     let shortDescription: ShortDescription?
     let parentID: String?
@@ -81,6 +82,17 @@ struct Value: Codable {
 }
 
 struct Experiments: Codable {
+}
+
+struct VariableMetadata: Codable, Identifiable {
+    let id = UUID()
+    let text: String
+    let type: String
+    let metadata: [String: JSONAny]
+    
+    enum CodingKeys: String, CodingKey {
+        case text, type, metadata
+    }
 }
 
 struct Product: Codable, Identifiable {

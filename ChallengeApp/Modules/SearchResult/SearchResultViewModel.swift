@@ -24,6 +24,7 @@ class SearchResultViewModel: MVIBaseViewModel {
         } catch {
             state.error = error as? APIError ?? .unknown
         }
+        state.searchCompleted = true
         state.isLoading = false
     }
 }
