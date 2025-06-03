@@ -1,0 +1,38 @@
+{
+  "configurations" : [
+    {
+      "id" : "3BA7402A-ACC5-49E2-81AF-F0E4632411A4",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:ChallengeApp.xcodeproj",
+      "identifier" : "561253312DEA505D0053AC59",
+      "name" : "ChallengeApp"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:ChallengeApp.xcodeproj",
+        "identifier" : "561253412DEA505E0053AC59",
+        "name" : "ChallengeAppTests"
+      }
+    },
+    {
+      "enabled" : false,
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:ChallengeApp.xcodeproj",
+        "identifier" : "5612534B2DEA505E0053AC59",
+        "name" : "ChallengeAppUITests"
+      }
+    }
+  ],
+  "version" : 1
+}

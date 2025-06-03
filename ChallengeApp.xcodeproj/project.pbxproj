@@ -27,12 +27,22 @@
 		561253322DEA505D0053AC59 /* ChallengeApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChallengeApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		561253422DEA505E0053AC59 /* ChallengeAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChallengeAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5612534C2DEA505E0053AC59 /* ChallengeAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChallengeAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		565365C02DEE78BE0032ED89 /* ChallengeApp.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = ChallengeApp.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
 		56D46CCC2DEA5E65008F964F /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Core/Constants.swift,
+				Core/Coordinator/Coordinator.swift,
+				Core/Coordinator/CoordinatorView.swift,
+				Core/Coordinator/Screen.swift,
+				"Core/JSON + Helpers.swift",
+				Core/MVIViewState.swift,
+				"Core/String + Extension.swift",
+				Core/URLSessionProtocol.swift,
+				"Core/View + Extension.swift",
 				Modules/Home/HomeView.swift,
 				Modules/ProductDetail/ProductDetailIntent.swift,
 				Modules/ProductDetail/ProductDetailState.swift,
@@ -42,12 +52,33 @@
 				Modules/SearchResult/SearchResultState.swift,
 				Modules/SearchResult/SearchResultView.swift,
 				Modules/SearchResult/SearchResultViewModel.swift,
+				Networking/APIError.swift,
+				Networking/APIRequest.swift,
+				Networking/Models/ProductDetail.swift,
+				Networking/Models/ProductMatch.swift,
+				Networking/NetworkService.swift,
+				Networking/RequestHeaders.swift,
+				Networking/RequestParams.swift,
+				Networking/RequestPath.swift,
+				Repository/SearchRepository.swift,
+				"Utils/Reusable Views/ErrorView.swift",
+				"Utils/Reusable Views/ImageCarousel.swift",
+				"Utils/Reusable Views/PageControlView.swift",
+				"Utils/Reusable Views/PickerView.swift",
 			);
 			target = 561253412DEA505E0053AC59 /* ChallengeAppTests */;
 		};
 		56D46CCD2DEA5E65008F964F /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Core/Constants.swift,
+				Core/Coordinator/Coordinator.swift,
+				Core/Coordinator/Screen.swift,
+				"Core/JSON + Helpers.swift",
+				Core/MVIViewState.swift,
+				"Core/String + Extension.swift",
+				Core/URLSessionProtocol.swift,
+				"Core/View + Extension.swift",
 				Modules/Home/HomeView.swift,
 				Modules/ProductDetail/ProductDetailIntent.swift,
 				Modules/ProductDetail/ProductDetailState.swift,
@@ -57,6 +88,19 @@
 				Modules/SearchResult/SearchResultState.swift,
 				Modules/SearchResult/SearchResultView.swift,
 				Modules/SearchResult/SearchResultViewModel.swift,
+				Networking/APIError.swift,
+				Networking/APIRequest.swift,
+				Networking/Models/ProductDetail.swift,
+				Networking/Models/ProductMatch.swift,
+				Networking/NetworkService.swift,
+				Networking/RequestHeaders.swift,
+				Networking/RequestParams.swift,
+				Networking/RequestPath.swift,
+				Repository/SearchRepository.swift,
+				"Utils/Reusable Views/ErrorView.swift",
+				"Utils/Reusable Views/ImageCarousel.swift",
+				"Utils/Reusable Views/PageControlView.swift",
+				"Utils/Reusable Views/PickerView.swift",
 			);
 			target = 5612534B2DEA505E0053AC59 /* ChallengeAppUITests */;
 		};
@@ -96,6 +140,7 @@
 		561253292DEA505D0053AC59 = {
 			isa = PBXGroup;
 			children = (
+				565365C02DEE78BE0032ED89 /* ChallengeApp.xctestplan */,
 				561253342DEA505D0053AC59 /* ChallengeApp */,
 				561253452DEA505E0053AC59 /* ChallengeAppTests */,
 				5612534F2DEA505E0053AC59 /* ChallengeAppUITests */,

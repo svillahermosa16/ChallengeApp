@@ -13,6 +13,7 @@ protocol APIRequestProtocol {
     var parameters: RequestParameters { get }
     var path: RequestPath { get }
     var headers: RequestHeaders? { get }
+    var url: URL? { get }
 }
 
 struct APIRequest: APIRequestProtocol {

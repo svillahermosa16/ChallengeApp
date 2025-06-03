@@ -32,6 +32,8 @@ struct SearchResultView: MVIBaseView {
             }
             Spacer()
         }
+        
+        //MARK: Este modificador personalizado puede causar errores al correr la suit de tests, comentar en caso de ser necesario para probar
         .onFirstAppear {
             searchProduct()
         }

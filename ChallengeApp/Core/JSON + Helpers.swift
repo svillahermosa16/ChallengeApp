@@ -57,6 +57,10 @@ class JSONAny: Codable {
     
     let value: Any
     
+    public init(value: Any) {
+        self.value = value
+    }
+    
     static func decodingError(forCodingPath codingPath: [CodingKey]) -> DecodingError {
         let context = DecodingError.Context(codingPath: codingPath, debugDescription: "Cannot decode JSONAny")
         return DecodingError.typeMismatch(JSONAny.self, context)

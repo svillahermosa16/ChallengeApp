@@ -9,24 +9,28 @@ import Foundation
 import Network
 
 protocol NetworkServiceProtocol {
-    func request<T: Decodable>(apiRequest: APIRequest, responseType: T.Type) async throws -> T
+    func request<T: Decodable>(apiRequest: APIRequestProtocol, responseType: T.Type) async throws -> T
 }
 
 class NetworkService: NetworkServiceProtocol {
     
+    let session: URLSessionProtocol
     private let networkMonitor = NWPathMonitor()
     private let workerQueue = DispatchQueue(label: "networkMonitor")
     var isConnected = true
     let decoder = JSONDecoder()
     
-    init() {
+    init(session: URLSessionProtocol = URLSession.shared) {
+        self.session = session
+        
         networkMonitor.pathUpdateHandler = { [weak self] path in
             self?.isConnected = path.status == .satisfied
         }
         networkMonitor.start(queue: workerQueue)
+        
     }
     
-    func request<T : Decodable>(apiRequest: APIRequest, responseType: T.Type) async throws -> T {
+    func request<T : Decodable>(apiRequest: APIRequestProtocol, responseType: T.Type) async throws -> T {
         do {
             guard isConnected else {
                 throw APIError.noInternetConnection
@@ -48,7 +52,7 @@ class NetworkService: NetworkServiceProtocol {
 #if DEBUG
             print("URL:\(String(describing: request.url?.absoluteString))")
 #endif
-            let (data, response) = try await URLSession.shared.data(for: request)
+            let (data, response) = try await session.data(for: request)
             let statusCode = (response as? HTTPURLResponse)?.statusCode ?? -1
             
             switch statusCode {
@@ -70,7 +74,7 @@ class NetworkService: NetworkServiceProtocol {
 
 extension NetworkService {
     
-    func addHeaders(request: inout URLRequest, apiRequest: APIRequest) {
+    func addHeaders(request: inout URLRequest, apiRequest: APIRequestProtocol) {
         let headers = apiRequest.headers
         headers?.forEach {
             if request.value(forHTTPHeaderField: $0.key) == nil {
