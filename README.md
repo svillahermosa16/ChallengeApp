@@ -35,19 +35,19 @@ Este repositorio contiene el proyecto correspondiente a la instancia de desafío
 - Campo de búsqueda principal
 - Validación de entrada en tiempo real
 
-![Screenshot](https://imgur.com/a/1yJTjlH)
+![m2b6iyD](https://github.com/user-attachments/assets/b5ad6efa-bf81-473f-b79e-3f5977648ce4)
 
 ### 📋 Lista de Resultados
 - Resultados paginados de la búsqueda
 
-![Screenshot](https://imgur.com/a/ffpoUlb)
+![ARDwlER](https://github.com/user-attachments/assets/0fd23a6d-a551-4318-be9b-39b1f4b28c36)
 
 ### 🔍 Detalle de Producto
 - Información completa del producto
 - Galería de imágenes
 - Especificaciones técnicas
 
-![Screenshot](https://imgur.com/a/YBecaTn)
+![vTOlfCo](https://github.com/user-attachments/assets/50896b9c-3982-4701-84e9-bf0b4dc93026)
 
 ## Dependencias
 
