@@ -51,11 +51,7 @@ struct HomeView: View {
                     }
                 }
                 .onSubmit {
-                    if !textInput.isEmpty {
-                        coordinator.push(.productList(textInput))
-                    } else {
-                        isShowingHelperText = true
-                    }
+                    search()
                 }
             }
             .padding(10)
@@ -63,6 +59,16 @@ struct HomeView: View {
                 Capsule()
                     .foregroundStyle(.white)
             }
+        }
+    }
+    
+    private func search() {
+        if !textInput.isEmpty {
+            isShowingHelperText = false
+            coordinator.push(.productList(textInput))
+            textInput = ""
+        } else {
+            isShowingHelperText = true
         }
     }
     
